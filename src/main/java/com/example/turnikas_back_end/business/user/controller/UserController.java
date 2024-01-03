@@ -31,18 +31,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Get User by email and password (login)")
     public UserDTO loginUser(@RequestBody UserDTO userLogin) {
         return userService.loginUser(userLogin);
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Get all the users")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/contact/{userId}")
-    public List<Contact> getContactByUserId(@PathVariable int userId){
-        return contactService.getContactsByUserId(userId);
+    @GetMapping("/contact")
+    @Operation(summary = "Get user contact information by userId")
+    public Contact getContactByUserId(@RequestParam int userId){
+        return contactService.getContactInformationByUserId(userId);
+    }
+
+    @PutMapping("/update/{userId}")
+    @Operation(summary = "Update the user information")
+    public Contact updateContactInformation(@PathVariable int userId, @RequestBody Contact updatedContact){
+        return contactService.updateContactInformation(userId, updatedContact);
     }
 }
 

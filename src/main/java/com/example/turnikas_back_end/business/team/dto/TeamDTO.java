@@ -1,4 +1,4 @@
-package com.example.turnikas_back_end.business.user.dto;
+package com.example.turnikas_back_end.business.team.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -6,21 +6,24 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserDTO {
+public class TeamDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String email;
+    private int userId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private int roleCode;
+    private int statsId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String password;
+    private int categoryCode;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String passwordRepeat;
+    private String teamName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String teamCoachName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private byte[] teamLogo;
 
-    public UserDTO(int id) {
+    public TeamDTO(int id){
         this.id = id;
     }
-
 }

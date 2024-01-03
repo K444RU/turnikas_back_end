@@ -1,23 +1,25 @@
 package com.example.turnikas_back_end.business.user.service;
 
 import com.example.turnikas_back_end.business.user.model.Contact;
+import com.example.turnikas_back_end.business.user.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ContactService {
 
-    public List<Contact> getContactsByUserId(int userId) {
-        List<Contact> contacts = Contact.generateContacts();
+    ContactRepository contactRepository;
 
-        List<Contact> userContacts = new ArrayList<>();
-        for (Contact contact : contacts) {
-            if (contact.getUserId() == userId) {
-                userContacts.add(contact);
-            }
-        }
-        return userContacts;
+    public ContactService(ContactRepository contactRepository){
+        this.contactRepository = contactRepository;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Contact getContactInformationByUserId(int userId){
+        return contactRepository.getContactInformationByUserId(userId);
+    }
+
+    public Contact updateContactInformation(int userId, Contact updatedContact) {
+        return contactRepository.updateContactInformation(userId, updatedContact);
     }
 }

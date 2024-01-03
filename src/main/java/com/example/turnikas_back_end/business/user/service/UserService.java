@@ -28,7 +28,6 @@ public class UserService {
 //        if (database.getUserByEmail(userRegistration.getEmail())) {
 //            user = database.saveUser(userRegistration);
 //        }
-
         Integer userId = userRepository.add(userRegistration);
         userRegistration.setId(userId);
 

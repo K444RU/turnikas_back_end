@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.jooq.generated.tables.User.USER;
 
@@ -26,17 +27,20 @@ public class UserRepository implements TurnikasRepository {
     @Override
     public Integer add(Object object) {
         UserRegistration userRegistration = (UserRegistration) object;
-        return jooq
-                .insertInto(USER,
-                        USER.EMAIL,
-                        USER.ROLE_CODE,
-                        USER.PASSWORD)
-                .values(userRegistration.getEmail(),
-                        userRegistration.getRoleCode(),
-                        userRegistration.getPassword())
-                .returning(USER.ID)
-                .execute();
+        return Objects.requireNonNull(jooq
+                        .insertInto(USER,
+                                USER.EMAIL,
+                                USER.ROLE_CODE,
+                                USER.PASSWORD)
+                        .values(userRegistration.getEmail(),
+                                userRegistration.getRoleCode(),
+                                userRegistration.getPassword())
+                        .returning(USER.ID, USER.ROLE_CODE)
+                        .fetchOne())
+                .getValue(USER.ID);
     }
+
+
 
     @Transactional
     @Override
@@ -67,6 +71,7 @@ public class UserRepository implements TurnikasRepository {
                 .fetchOneInto(UserDTO.class);
     }
 
+    @Transactional
     public UserDTO findUserByLoginInformation(UserDTO user) {
         return jooq
                 .select(USER.ID,
@@ -76,6 +81,11 @@ public class UserRepository implements TurnikasRepository {
                 .and(USER.PASSWORD.eq(user.getPassword()))
                 .fetchOneInto(UserDTO.class);
     }
+
+
+
+
+
 
     @Transactional
     @Override
