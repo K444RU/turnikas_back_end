@@ -1,9 +1,12 @@
 package com.example.turnikas_back_end.business.team.controller;
 
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
+import com.example.turnikas_back_end.business.team.dto.TeamPlayerDTO;
 import com.example.turnikas_back_end.business.team.model.Category;
 import com.example.turnikas_back_end.business.team.model.Stats;
 import com.example.turnikas_back_end.business.team.model.Team;
+import com.example.turnikas_back_end.business.team.model.TeamPlayer;
+import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistration;
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
 import com.example.turnikas_back_end.business.team.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +33,13 @@ public class TeamController {
         return teamService.registerTeam(teamRegistration);
     }
 
+    @PostMapping("/player/register")
+    @Operation(summary = "Post team player information(new team player registration)")
+    public TeamPlayerDTO registerTeamPlayer(@RequestBody TeamPlayerRegistration teamPlayerRegistration){
+        return teamService.registerTeamPlayer(teamPlayerRegistration);
+    }
+
+
     @GetMapping("/all")
     @Operation(summary = "Get all the teams")
     public List<TeamDTO> getAllTeams() {
@@ -41,6 +51,25 @@ public class TeamController {
     public List<Team> getTeamByUserId(@RequestParam int userId) {
         return teamService.getTeamInformationByUserId(userId);
     }
+
+    @GetMapping("/profile/info")
+    @Operation(summary = "Get team information by Team Id")
+    public List<Team> getTeamByTeamId(@RequestParam int teamId) {
+        return teamService.getTeamInformationByTeamId(teamId);
+    }
+
+    @GetMapping("/players/info")
+    @Operation(summary = "Get team players info by team Id")
+    public List<TeamPlayer> getTeamPlayerInformationByTeamId(@RequestParam int teamId){
+        return teamService.getTeamPlayerInformationByTeamId(teamId);
+    }
+
+    @GetMapping("/player/info")
+    @Operation(summary = "Get team player info by its player Id")
+    public TeamPlayer getTeamPlayerInformationByPlayerId(@RequestParam int playerId){
+        return teamService.getTeamPlayerInformationByPlayerId(playerId);
+    }
+
 
     @GetMapping("/age/category")
     @Operation(summary = "Get age category by categoryCode")

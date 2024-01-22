@@ -5,6 +5,8 @@ import com.example.turnikas_back_end.business.team.dto.TeamDTO;
 import com.example.turnikas_back_end.business.team.model.Category;
 import com.example.turnikas_back_end.business.team.model.Stats;
 import com.example.turnikas_back_end.business.team.model.Team;
+import com.example.turnikas_back_end.business.team.model.TeamPlayer;
+import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistration;
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.StatsRecord;
@@ -18,6 +20,7 @@ import java.util.List;
 import static org.jooq.generated.tables.AgeCategory.AGE_CATEGORY;
 import static org.jooq.generated.tables.Stats.STATS;
 import static org.jooq.generated.tables.Team.TEAM;
+import static org.jooq.generated.tables.TeamPlayer.TEAM_PLAYER;
 
 @Repository
 public class TeamRepository implements TurnikasRepository {
@@ -35,6 +38,8 @@ public class TeamRepository implements TurnikasRepository {
         TeamRegistration teamRegistration = (TeamRegistration) object;
         Integer statsId = defaultTeamStats();
 
+        System.out.println("Team Registration Details: " + teamRegistration.toString());
+
         return jooq
                 .insertInto(TEAM,
                         TEAM.USER_ID,
@@ -49,7 +54,20 @@ public class TeamRepository implements TurnikasRepository {
                         teamRegistration.getTeamName(),
                         teamRegistration.getTeamLogo(),
                         teamRegistration.getTeamCoachName())
-                .returning(TEAM.ID, TEAM.CATEGORY_CODE)
+                .returning(TEAM.ID, TEAM.CATEGORY_CODE, TEAM.USER_ID)
+                .execute();
+    }
+
+    public Integer add2(TeamPlayerRegistration teamPlayerRegistration) {
+        return jooq
+                .insertInto(TEAM_PLAYER,
+                        TEAM_PLAYER.TEAM_ID,
+                        TEAM_PLAYER.FIRST_NAME,
+                        TEAM_PLAYER.LAST_NAME)
+                .values(teamPlayerRegistration.getTeamId(),
+                        teamPlayerRegistration.getFirstName(),
+                        teamPlayerRegistration.getLastName())
+                .returning(TEAM_PLAYER.ID, TEAM_PLAYER.TEAM_ID)
                 .execute();
     }
 
@@ -114,6 +132,15 @@ public class TeamRepository implements TurnikasRepository {
                 .fetchInto(Team.class);
     }
 
+    public List<Team> getTeamInformationByTeamId(int teamId) {
+        return jooq
+                .selectFrom(TEAM)
+                .where(TEAM.ID.eq(teamId))
+                .fetchInto(Team.class);
+    }
+
+
+
     public Team updateTeamInformation(int teamId, Team updatedTeam) {
         int updatedRows = jooq
                 .update(TEAM)
@@ -176,6 +203,21 @@ public class TeamRepository implements TurnikasRepository {
             return ResponseEntity.notFound().build();
         }
     }
+
+    public List<TeamPlayer> getTeamPlayerInformationByTeamId(int teamId) {
+        return jooq
+                .selectFrom(TEAM_PLAYER)
+                .where(TEAM_PLAYER.TEAM_ID.eq(teamId))
+                .fetchInto(TeamPlayer.class);
+    }
+
+    public TeamPlayer getTeamPlayerInformationByPlayerId(int playerId) {
+        return jooq
+                .selectFrom(TEAM_PLAYER)
+                .where(TEAM_PLAYER.ID.eq(playerId))
+                .fetchOneInto(TeamPlayer.class);
+    }
+
 
 //    public Team findTeamById(int teamId) {
 //        return jooq

@@ -22,15 +22,8 @@ public class UserService {
     }
 
     public UserDTO registerUser(UserRegistration userRegistration) {
-        //check if user already exist by email
-        //save the user
-        //create the userid for user
-//        if (database.getUserByEmail(userRegistration.getEmail())) {
-//            user = database.saveUser(userRegistration);
-//        }
         Integer userId = userRepository.add(userRegistration);
         userRegistration.setId(userId);
-
         contactRepository.add(userRegistration);
         return new UserDTO(userId);
     }
