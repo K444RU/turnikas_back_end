@@ -50,4 +50,19 @@ VALUES (0,0,0,0,0,0);
 INSERT INTO stats(played, won, lost, draw, goal_for, goal_against) 
 VALUES (0,0,0,0,0,0);
 
+INSERT INTO city(id, city_name) VALUES (1, 'Tallinn');
+INSERT INTO city(id, city_name) VALUES (2, 'Tartu');
+INSERT INTO city(id, city_name) VALUES (3, 'Narva');
+INSERT INTO city(id, city_name) VALUES (4, 'Pärnu');
+INSERT INTO city(id, city_name) VALUES (5, 'Viljandi');
+INSERT INTO city(id, city_name) VALUES (6, 'Haapsalu');
+
+
+INSERT INTO stadium(id, city_id, name) VALUES (1, 1, 'A. Le Coq Arena');
+INSERT INTO stadium(id, city_id, name) VALUES (2, 2, 'Tartu Tamme Kunstmuruväljak');
+INSERT INTO stadium(id, city_id, name) VALUES (3, 3, 'Narva Kreenholmi Staadium');
+INSERT INTO stadium(id, city_id, name) VALUES (4, 4, 'Pärnu Rannastaadion');
+INSERT INTO stadium(id, city_id, name) VALUES (5, 5, 'Viljandi Kunstmuruväljak');
+INSERT INTO stadium(id, city_id, name) VALUES (6, 6, 'Haapsalu Linnastaadion');
+
 
