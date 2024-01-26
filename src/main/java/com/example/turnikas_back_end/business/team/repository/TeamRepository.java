@@ -52,7 +52,7 @@ public class TeamRepository implements TurnikasRepository {
                         teamRegistration.getCategoryCode(),
                         statsId,
                         teamRegistration.getTeamName(),
-                        teamRegistration.getTeamLogo(),
+                        teamRegistration.getTeamLogo().getBytes(),
                         teamRegistration.getTeamCoachName())
                 .returning(TEAM.ID, TEAM.CATEGORY_CODE, TEAM.USER_ID)
                 .execute();
