@@ -20,6 +20,6 @@ public class TeamRegistration {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String teamCoachName;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private byte[] teamLogo;
+    private String teamLogo;
 
 }
