@@ -29,6 +29,12 @@ public class TournamentController {
         return tournamentService.registerNewTournament(tournamentRegistration);
     }
 
+    @GetMapping("/all")
+    @Operation(summary = "Get all tournaments")
+    public List<TournamentDTO> getAllTournaments(){
+        return tournamentService.getAllTorunaments();
+    }
+
     @GetMapping("/city")
     @Operation(summary = "Get all the tournament related cities")
     public List<City> getAllCities(){
@@ -38,7 +44,7 @@ public class TournamentController {
     @GetMapping("/stadium")
     @Operation(summary = "Get all the tournament related stadiums")
     public List<Stadium> getAllStadiums(){
-        return tournamentService.getAllTorunaments();
+        return tournamentService.findAllStadiums();
     }
 
     @GetMapping("/player/amount")

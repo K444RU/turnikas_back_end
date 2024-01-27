@@ -22,12 +22,15 @@ public class TournamentService {
     Integer tournamentId = tournamentRepository.add(tournamentRegistration);
     return new TournamentDTO(tournamentId);
     }
+    public List<TournamentDTO> getAllTorunaments() {
+        return tournamentRepository.findAllTournaments();
+    }
     @SuppressWarnings("unchecked")
     public List<City> getAllCities() {
         return (List<City>) tournamentRepository.findAllCities();
     }
     @SuppressWarnings("unchecked")
-    public List<Stadium> getAllTorunaments() {
+    public List<Stadium> findAllStadiums() {
         return (List<Stadium>) tournamentRepository.findAllStadiums();
     }
     @SuppressWarnings("unchecked")
@@ -38,5 +41,6 @@ public class TournamentService {
     public Stadium getStadiumByCityId(int cityId) {
         return tournamentRepository.getStadiumByCityId(cityId);
     }
+
 
 }
