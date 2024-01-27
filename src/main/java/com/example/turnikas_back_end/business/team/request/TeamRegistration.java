@@ -21,5 +21,4 @@ public class TeamRegistration {
     private String teamCoachName;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String teamLogo;
-
 }
