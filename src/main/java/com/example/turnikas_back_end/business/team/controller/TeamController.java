@@ -39,7 +39,6 @@ public class TeamController {
         return teamService.registerTeamPlayer(teamPlayerRegistration);
     }
 
-
     @GetMapping("/all")
     @Operation(summary = "Get all the teams")
     public List<TeamDTO> getAllTeams() {
@@ -69,7 +68,6 @@ public class TeamController {
     public TeamPlayer getTeamPlayerInformationByPlayerId(@RequestParam int playerId){
         return teamService.getTeamPlayerInformationByPlayerId(playerId);
     }
-
 
     @GetMapping("/age/category")
     @Operation(summary = "Get age category by categoryCode")
