@@ -1,6 +1,7 @@
 package com.example.turnikas_back_end.business.turnament.repository;
 
 import com.example.turnikas_back_end.business.common.repository.TurnikasRepository;
+import com.example.turnikas_back_end.business.turnament.dto.TournamentDTO;
 import com.example.turnikas_back_end.business.turnament.model.City;
 import com.example.turnikas_back_end.business.turnament.model.PlayerAmount;
 import com.example.turnikas_back_end.business.turnament.model.Stadium;
@@ -85,6 +86,22 @@ public class TournamentRepository implements TurnikasRepository {
         return null;
     }
 
+    public List<TournamentDTO> findAllTournaments() {
+        return jooq
+                .select(TOURNAMENT,
+                        TOURNAMENT.AGE_CATEGORY_CODE,
+                        TOURNAMENT.PLAYER_AMOUNT_CODE,
+                        TOURNAMENT.CITY_ID,
+                        TOURNAMENT.STADIUM_ID,
+                        TOURNAMENT.NAME,
+                        TOURNAMENT.START_DATE,
+                        TOURNAMENT.END_DATE,
+                        TOURNAMENT.PARTICIPATION_PRISE,
+                        TOURNAMENT.PRIZE,
+                        TOURNAMENT.ADDITIONAL_INFO)
+                .from(TOURNAMENT)
+                .fetchInto(TournamentDTO.class);
+    }
     public Object findAllCities() {
         return jooq
                 .select(CITY.ID,
@@ -116,4 +133,6 @@ public class TournamentRepository implements TurnikasRepository {
                 .where(STADIUM.CITY_ID.eq(cityId))
                 .fetchOneInto(Stadium.class);
     }
+
+
 }
