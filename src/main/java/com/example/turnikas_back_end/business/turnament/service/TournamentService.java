@@ -1,5 +1,7 @@
 package com.example.turnikas_back_end.business.turnament.service;
 
+import com.example.turnikas_back_end.business.team.dto.AgeCategoryDTO;
+import com.example.turnikas_back_end.business.turnament.dto.PlayerAmountDTO;
 import com.example.turnikas_back_end.business.turnament.dto.TournamentDTO;
 import com.example.turnikas_back_end.business.turnament.model.City;
 import com.example.turnikas_back_end.business.turnament.model.PlayerAmount;
@@ -38,9 +40,28 @@ public class TournamentService {
         return (List<PlayerAmount>) tournamentRepository.findAllPlayerAmounts();
     }
 
-    public Stadium getStadiumByCityId(int cityId) {
+    public List<Stadium> getStadiumByCityId(int cityId) {
         return tournamentRepository.getStadiumByCityId(cityId);
     }
 
 
+    public City getCityInformationByCityId(int cityId) {
+        return tournamentRepository.getCityInformationByCityId(cityId);
+    }
+
+    public TournamentDTO getTournamentInformationByTournamentId(int tournamentId) {
+        return tournamentRepository.findTournamentInformationByTournamentId(tournamentId);
+    }
+
+    public PlayerAmountDTO getPlayerAmountById(int amountCode) {
+        return tournamentRepository.findPlayerAmountById(amountCode);
+    }
+
+    public AgeCategoryDTO getCategoryNameByAgeCategoryCode(int ageCategoryCode) {
+        return tournamentRepository.getCategoryNameByAgeCategoryCode(ageCategoryCode);
+    }
+
+    public List<AgeCategoryDTO> getAllAgeCategories() {
+        return tournamentRepository.findAllAgeCategories();
+    }
 }

@@ -51,7 +51,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Postgres
-    runtimeOnly 'org.postgresql:postgresql:42.7.1'
+//    runtimeOnly 'org.postgresql:postgresql:42.7.1'
+    implementation 'org.postgresql:postgresql:42.7.1'
 
     // jOOQ
     implementation 'org.jooq:jooq:3.18.7'

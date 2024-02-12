@@ -2,7 +2,7 @@ package com.example.turnikas_back_end.business.team.repository;
 
 import com.example.turnikas_back_end.business.common.repository.TurnikasRepository;
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
-import com.example.turnikas_back_end.business.team.model.Category;
+import com.example.turnikas_back_end.business.team.model.AgeCategory;
 import com.example.turnikas_back_end.business.team.model.Stats;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.model.TeamPlayer;
@@ -166,11 +166,11 @@ public class TeamRepository implements TurnikasRepository {
                 .into(Team.class);
     }
 
-    public List<Category> getCategoryNameById(int categoryCode) {
+    public List<AgeCategory> getCategoryNameById(int categoryCode) {
         return jooq
                 .selectFrom(AGE_CATEGORY)
                 .where(AGE_CATEGORY.CATEGORY_CODE.eq(categoryCode))
-                .fetchInto(Category.class);
+                .fetchInto(AgeCategory.class);
     }
 
     public List<?> findAllCategories() {
@@ -179,7 +179,7 @@ public class TeamRepository implements TurnikasRepository {
                         AGE_CATEGORY.CATEGORY_CODE,
                         AGE_CATEGORY.CATEGORY_NAME)
                 .from(AGE_CATEGORY)
-                .fetchInto(Category.class);
+                .fetchInto(AgeCategory.class);
     }
 
     public List<Team> findAllTeamsByCategoryCode(int categoryCode, int userId) {

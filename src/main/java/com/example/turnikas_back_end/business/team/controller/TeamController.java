@@ -2,7 +2,7 @@ package com.example.turnikas_back_end.business.team.controller;
 
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
 import com.example.turnikas_back_end.business.team.dto.TeamPlayerDTO;
-import com.example.turnikas_back_end.business.team.model.Category;
+import com.example.turnikas_back_end.business.team.model.AgeCategory;
 import com.example.turnikas_back_end.business.team.model.Stats;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.model.TeamPlayer;
@@ -71,13 +71,13 @@ public class TeamController {
 
     @GetMapping("/age/category")
     @Operation(summary = "Get age category by categoryCode")
-    public List<Category> getCategoryNameById(@RequestParam int categoryCode) {
+    public List<AgeCategory> getCategoryNameById(@RequestParam int categoryCode) {
         return teamService.getCategoryNameById(categoryCode);
     }
 
     @GetMapping("/all/age/category")
     @Operation(summary = "Get all age categories")
-    public List<Category> getAllAgeCategories() {
+    public List<AgeCategory> getAllAgeCategories() {
         return teamService.getAllCategories();
     }
 

@@ -1,6 +1,8 @@
 package com.example.turnikas_back_end.business.turnament.repository;
 
 import com.example.turnikas_back_end.business.common.repository.TurnikasRepository;
+import com.example.turnikas_back_end.business.team.dto.AgeCategoryDTO;
+import com.example.turnikas_back_end.business.turnament.dto.PlayerAmountDTO;
 import com.example.turnikas_back_end.business.turnament.dto.TournamentDTO;
 import com.example.turnikas_back_end.business.turnament.model.City;
 import com.example.turnikas_back_end.business.turnament.model.PlayerAmount;
@@ -11,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
+import static org.jooq.generated.tables.AgeCategory.AGE_CATEGORY;
 import static org.jooq.generated.tables.City.CITY;
 import static org.jooq.generated.tables.PlayerAmount.PLAYER_AMOUNT;
 import static org.jooq.generated.tables.Stadium.STADIUM;
@@ -35,7 +39,7 @@ public class TournamentRepository implements TurnikasRepository {
         TournamentRegistration tournamentRegistration = (TournamentRegistration) object;
         return jooq
                 .insertInto(TOURNAMENT,
-                        TOURNAMENT.AGE_CATEGORY_CODE,
+                        TOURNAMENT.CATEGORY_CODE,
                         TOURNAMENT.PLAYER_AMOUNT_CODE,
                         TOURNAMENT.CITY_ID,
                         TOURNAMENT.STADIUM_ID,
@@ -45,7 +49,7 @@ public class TournamentRepository implements TurnikasRepository {
                         TOURNAMENT.PARTICIPATION_PRISE,
                         TOURNAMENT.PRIZE,
                         TOURNAMENT.ADDITIONAL_INFO)
-                .values(tournamentRegistration.getAgeCategoryCode(),
+                .values(tournamentRegistration.getCategoryCode(),
                         tournamentRegistration.getPlayerAmountCode(),
                         tournamentRegistration.getCityId(),
                         tournamentRegistration.getStadiumId(),
@@ -57,7 +61,7 @@ public class TournamentRepository implements TurnikasRepository {
                         tournamentRegistration.getAdditionalInfo())
                 .returning(TOURNAMENT.ID,
                         TOURNAMENT.NAME,
-                        TOURNAMENT.AGE_CATEGORY_CODE,
+                        TOURNAMENT.CATEGORY_CODE,
                         TOURNAMENT.CITY_ID,
                         TOURNAMENT.START_DATE,
                         TOURNAMENT.END_DATE,
@@ -88,8 +92,8 @@ public class TournamentRepository implements TurnikasRepository {
 
     public List<TournamentDTO> findAllTournaments() {
         return jooq
-                .select(TOURNAMENT,
-                        TOURNAMENT.AGE_CATEGORY_CODE,
+                .select(TOURNAMENT.ID,
+                        TOURNAMENT.CATEGORY_CODE,
                         TOURNAMENT.PLAYER_AMOUNT_CODE,
                         TOURNAMENT.CITY_ID,
                         TOURNAMENT.STADIUM_ID,
@@ -127,12 +131,61 @@ public class TournamentRepository implements TurnikasRepository {
                 .fetchInto(PlayerAmount.class);
     }
 
-    public Stadium getStadiumByCityId(int cityId) {
-        return jooq
+    public List<Stadium> getStadiumByCityId(int cityId) {
+        return Collections.singletonList(jooq
                 .selectFrom(STADIUM)
                 .where(STADIUM.CITY_ID.eq(cityId))
-                .fetchOneInto(Stadium.class);
+                .fetchOneInto(Stadium.class));
     }
 
 
+    public City getCityInformationByCityId(int cityId) {
+        return jooq
+                .selectFrom(CITY)
+                .where(CITY.ID.eq(cityId))
+                .fetchOneInto(City.class);
+    }
+
+    public TournamentDTO findTournamentInformationByTournamentId(int tournamentId) {
+        return jooq
+                .select(TOURNAMENT.ID,
+                        TOURNAMENT.CATEGORY_CODE,
+                        TOURNAMENT.PLAYER_AMOUNT_CODE,
+                        TOURNAMENT.CITY_ID,
+                        TOURNAMENT.STADIUM_ID,
+                        TOURNAMENT.NAME,
+                        TOURNAMENT.START_DATE,
+                        TOURNAMENT.END_DATE,
+                        TOURNAMENT.PARTICIPATION_PRISE,
+                        TOURNAMENT.PRIZE,
+                        TOURNAMENT.ADDITIONAL_INFO)
+                .from(TOURNAMENT)
+                .where(TOURNAMENT.ID.eq(tournamentId))
+                .fetchOneInto(TournamentDTO.class);
+    }
+
+    public PlayerAmountDTO findPlayerAmountById(int amountCode) {
+        return jooq
+                .select(PLAYER_AMOUNT.AMOUNT_CODE,
+                        PLAYER_AMOUNT.AMOUNT_NAME)
+                .from(PLAYER_AMOUNT)
+                .where(PLAYER_AMOUNT.AMOUNT_CODE.eq(amountCode))
+                .fetchOneInto(PlayerAmountDTO.class);
+    }
+
+    public AgeCategoryDTO getCategoryNameByAgeCategoryCode(int ageCategoryCode) {
+        return jooq
+                .select(AGE_CATEGORY.CATEGORY_CODE, AGE_CATEGORY.CATEGORY_NAME)
+                .from(AGE_CATEGORY)
+                .where(AGE_CATEGORY.CATEGORY_CODE.eq(ageCategoryCode))
+                .fetchOneInto(AgeCategoryDTO.class);
+    }
+
+    public List<AgeCategoryDTO> findAllAgeCategories() {
+        return jooq
+                .select(AGE_CATEGORY.CATEGORY_CODE,
+                        AGE_CATEGORY.CATEGORY_NAME)
+                .from(AGE_CATEGORY)
+                .fetchInto(AgeCategoryDTO.class);
+    }
 }
