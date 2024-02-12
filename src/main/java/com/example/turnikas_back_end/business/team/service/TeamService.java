@@ -2,7 +2,7 @@ package com.example.turnikas_back_end.business.team.service;
 
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
 import com.example.turnikas_back_end.business.team.dto.TeamPlayerDTO;
-import com.example.turnikas_back_end.business.team.model.Category;
+import com.example.turnikas_back_end.business.team.model.AgeCategory;
 import com.example.turnikas_back_end.business.team.model.Stats;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.model.TeamPlayer;
@@ -63,13 +63,13 @@ public class TeamService {
         return teamRepository.deleteByTeamId(teamId);
     }
 
-    public List<Category> getCategoryNameById(int categoryCode) {
+    public List<AgeCategory> getCategoryNameById(int categoryCode) {
         return teamRepository.getCategoryNameById(categoryCode);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Category> getAllCategories() {
-        return (List<Category>) teamRepository.findAllCategories();
+    public List<AgeCategory> getAllCategories() {
+        return (List<AgeCategory>) teamRepository.findAllCategories();
     }
 
     public List<Team> getTeamsByCategoryCode(int categoryCode, int userId) {

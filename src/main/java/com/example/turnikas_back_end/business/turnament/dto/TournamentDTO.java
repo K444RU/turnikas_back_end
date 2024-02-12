@@ -13,7 +13,7 @@ public class TournamentDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private int ageCategoryCode;
+    private int categoryCode;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int playerAmountCode;
     @JsonInclude(JsonInclude.Include.NON_NULL)

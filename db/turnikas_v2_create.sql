@@ -251,7 +251,7 @@ ALTER TABLE participation ADD CONSTRAINT participation_tournament
 -- Reference: team_age_category (table: team)
 ALTER TABLE team ADD CONSTRAINT team_age_category
     FOREIGN KEY (category_code)
-    REFERENCES age_category (category_code)  
+    REFERENCES age_category (category_code)
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -283,7 +283,7 @@ ALTER TABLE team ADD CONSTRAINT team_user
 -- Reference: tournament_age_category (table: tournament)
 ALTER TABLE tournament ADD CONSTRAINT tournament_age_category
     FOREIGN KEY (age_category_code)
-    REFERENCES age_category (category_code)  
+    REFERENCES age_category (category_code)
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;

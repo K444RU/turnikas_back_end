@@ -1,5 +1,7 @@
 package com.example.turnikas_back_end.business.turnament.controller;
 
+import com.example.turnikas_back_end.business.team.dto.AgeCategoryDTO;
+import com.example.turnikas_back_end.business.turnament.dto.PlayerAmountDTO;
 import com.example.turnikas_back_end.business.turnament.dto.TournamentDTO;
 import com.example.turnikas_back_end.business.turnament.model.City;
 import com.example.turnikas_back_end.business.turnament.model.PlayerAmount;
@@ -35,10 +37,22 @@ public class TournamentController {
         return tournamentService.getAllTorunaments();
     }
 
+    @GetMapping("/info")
+    @Operation(summary = "Get tournament info by tournamentId")
+    public TournamentDTO getTournamentInformationByTournamentId(int tournamentId){
+        return tournamentService.getTournamentInformationByTournamentId(tournamentId);
+    }
+
     @GetMapping("/city")
     @Operation(summary = "Get all the tournament related cities")
     public List<City> getAllCities(){
         return tournamentService.getAllCities();
+    }
+
+    @GetMapping("/city/info")
+    @Operation(summary = "Get tournament city info by cityId")
+    public City getCityInformationByCityId(int cityId){
+        return tournamentService.getCityInformationByCityId(cityId);
     }
 
     @GetMapping("/stadium")
@@ -53,9 +67,29 @@ public class TournamentController {
         return tournamentService.getAllPlayerAmounts();
     }
 
+    @GetMapping("/player/amount/info")
+    @Operation(summary = "Get the tournament player amounts by its Id's")
+    public PlayerAmountDTO getPlayerAmountById(@RequestParam int amountCode){
+        return tournamentService.getPlayerAmountById(amountCode);
+    }
+
     @GetMapping("/city/stadium")
     @Operation(summary = "Get stadium by city Id")
-    public Stadium getStadiumByCityId(@RequestParam int cityId){
+    public List<Stadium> getStadiumByCityId(@RequestParam int cityId){
         return tournamentService.getStadiumByCityId(cityId);
     }
+
+    @GetMapping("/age-category")
+    @Operation(summary = "Get category name by age category code")
+    public AgeCategoryDTO getCategoryNameByAgeCategoryCode(@RequestParam int ageCategoryCode){
+        return tournamentService.getCategoryNameByAgeCategoryCode(ageCategoryCode);
+    }
+
+    @GetMapping("/age-category/info")
+    @Operation(summary = "Get all available age catergories for the tournament")
+    public List<AgeCategoryDTO> getAllAgeCategories(){
+        return tournamentService.getAllAgeCategories();
+    }
+
+
 }
