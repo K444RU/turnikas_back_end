@@ -13,4 +13,5 @@ public class Team {
     private String teamName;
     private byte[] teamLogo;
     private String teamCoachName;
+    private int roleCode;
 }

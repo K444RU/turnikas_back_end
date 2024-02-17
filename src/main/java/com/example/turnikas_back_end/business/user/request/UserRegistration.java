@@ -15,8 +15,6 @@ public class UserRegistration {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String email;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private int roleCode;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String passwordRepeat;

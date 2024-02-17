@@ -16,6 +16,7 @@ import static org.jooq.generated.tables.User.USER;
 @Repository
 public class UserRepository implements TurnikasRepository {
 
+
     private final DSLContext jooq;
 
     @Autowired
@@ -30,17 +31,13 @@ public class UserRepository implements TurnikasRepository {
         return Objects.requireNonNull(jooq
                         .insertInto(USER,
                                 USER.EMAIL,
-                                USER.ROLE_CODE,
                                 USER.PASSWORD)
                         .values(userRegistration.getEmail(),
-                                userRegistration.getRoleCode(),
                                 userRegistration.getPassword())
-                        .returning(USER.ID, USER.ROLE_CODE)
+                        .returning(USER.ID)
                         .fetchOne())
                 .getValue(USER.ID);
     }
-
-
 
     @Transactional
     @Override
@@ -53,19 +50,16 @@ public class UserRepository implements TurnikasRepository {
     public List<?> findAll() {
         return jooq
                 .select(USER.ID,
-                        USER.EMAIL,
-                        USER.ROLE_CODE)
+                        USER.EMAIL)
                 .from(USER)
                 .fetchInto(UserDTO.class);
     }
-
     @Transactional(readOnly = true)
     @Override
     public Object findById(Integer id) {
         return jooq
                 .select(USER.ID,
-                        USER.EMAIL,
-                        USER.ROLE_CODE)
+                        USER.EMAIL)
                 .from(USER)
                 .where(USER.ID.eq(id))
                 .fetchOneInto(UserDTO.class);
@@ -74,18 +68,12 @@ public class UserRepository implements TurnikasRepository {
     @Transactional
     public UserDTO findUserByLoginInformation(UserDTO user) {
         return jooq
-                .select(USER.ID,
-                        USER.ROLE_CODE)
+                .select(USER.ID)
                 .from(USER)
                 .where(USER.EMAIL.eq(user.getEmail()))
                 .and(USER.PASSWORD.eq(user.getPassword()))
                 .fetchOneInto(UserDTO.class);
     }
-
-
-
-
-
 
     @Transactional
     @Override

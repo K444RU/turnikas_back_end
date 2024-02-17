@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     private int userId;
-    private int roleCode;
     private String email;
     private String password;
 }

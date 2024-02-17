@@ -2,10 +2,7 @@ package com.example.turnikas_back_end.business.team.repository;
 
 import com.example.turnikas_back_end.business.common.repository.TurnikasRepository;
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
-import com.example.turnikas_back_end.business.team.model.AgeCategory;
-import com.example.turnikas_back_end.business.team.model.Stats;
-import com.example.turnikas_back_end.business.team.model.Team;
-import com.example.turnikas_back_end.business.team.model.TeamPlayer;
+import com.example.turnikas_back_end.business.team.model.*;
 import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistration;
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
 import org.jooq.DSLContext;
@@ -15,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
+import static org.jooq.generated.Tables.ROLE;
 import static org.jooq.generated.tables.AgeCategory.AGE_CATEGORY;
 import static org.jooq.generated.tables.Stats.STATS;
 import static org.jooq.generated.tables.Team.TEAM;
@@ -30,6 +30,56 @@ public class TeamRepository implements TurnikasRepository {
     @Autowired
     public TeamRepository(DSLContext jooq) {
         this.jooq = jooq;
+    }
+
+    public Integer createDefaultTeam(Integer userId, LocalDate userDateOfBirth) {
+
+        Integer statsId = defaultTeamStats();
+        Integer categoryCode = calculateCategoryCode(userDateOfBirth);
+
+        return jooq.insertInto(TEAM,
+                        TEAM.USER_ID,
+                        TEAM.STATS_ID,
+                        TEAM.CATEGORY_CODE,
+                        TEAM.TEAM_NAME,
+                        TEAM.TEAM_LOGO,
+                        TEAM.TEAM_COACH_NAME,
+                        TEAM.ROLE_CODE)
+                .values(userId, statsId, categoryCode, "TEAM №" + userId, null, null, 1)
+                .returning(TEAM.ID,
+                        TEAM.USER_ID,
+                        TEAM.STATS_ID,
+                        TEAM.CATEGORY_CODE,
+                        TEAM.TEAM_NAME,
+                        TEAM.TEAM_LOGO,
+                        TEAM.TEAM_COACH_NAME,
+                        TEAM.ROLE_CODE)
+                .execute();
+    }
+
+    private int calculateCategoryCode(LocalDate dateOfBirth) {
+        if (dateOfBirth == null) {
+            return -1;
+        }
+
+        LocalDate currentDate = LocalDate.now();
+        int age = Period.between(dateOfBirth, currentDate).getYears();
+
+        if (age < 7) {
+            return 1;
+        } else if (age <= 9) {
+            return 2;
+        } else if (age <= 11) {
+            return 3;
+        } else if (age <= 13) {
+            return 4;
+        } else if (age <= 15) {
+            return 5;
+        } else if (age <= 17) {
+            return 6;
+        } else {
+            return 7;
+        }
     }
 
     @Override
@@ -47,14 +97,16 @@ public class TeamRepository implements TurnikasRepository {
                         TEAM.STATS_ID,
                         TEAM.TEAM_NAME,
                         TEAM.TEAM_LOGO,
-                        TEAM.TEAM_COACH_NAME)
+                        TEAM.TEAM_COACH_NAME,
+                        TEAM.ROLE_CODE)
                 .values(teamRegistration.getUserId(),
                         teamRegistration.getCategoryCode(),
                         statsId,
                         teamRegistration.getTeamName(),
-                        teamRegistration.getTeamLogo().getBytes(),
-                        teamRegistration.getTeamCoachName())
-                .returning(TEAM.ID, TEAM.CATEGORY_CODE, TEAM.USER_ID)
+                        (teamRegistration.getTeamLogo() != null) ? teamRegistration.getTeamLogo().getBytes() : null,
+                        teamRegistration.getTeamCoachName(),
+                        teamRegistration.getRoleCode())
+                .returning(TEAM.ID, TEAM.CATEGORY_CODE, TEAM.USER_ID, TEAM.ROLE_CODE)
                 .execute();
     }
 
@@ -95,13 +147,13 @@ public class TeamRepository implements TurnikasRepository {
     public List<?> findAll() {
         return jooq
                 .select(TEAM.ID,
+                        TEAM.USER_ID,
+                        TEAM.CATEGORY_CODE,
+                        TEAM.STATS_ID,
                         TEAM.TEAM_NAME,
                         TEAM.TEAM_LOGO,
                         TEAM.TEAM_COACH_NAME,
-                        TEAM.USER_ID,
-                        TEAM.STATS_ID,
-                        TEAM.CATEGORY_CODE,
-                        TEAM.TEAM_LOGO)
+                        TEAM.ROLE_CODE)
                 .from(TEAM)
                 .fetchInto(TeamDTO.class);
     }
@@ -115,15 +167,6 @@ public class TeamRepository implements TurnikasRepository {
     public Object update(Object object) {
         return null;
     }
-//
-//    public Team update(Team team) {
-//        return jooq
-//                .update(TEAM)
-//                .set(TEAM.TEAM_STATUS, team.getTeamStatus())
-//                .where(TEAM.ID.eq(team.getId()))
-//                .execute() > 0 ? team : null;
-//    }
-
 
     public List<Team> getTeamInformationByUserId(int userId) {
         return jooq
@@ -138,7 +181,6 @@ public class TeamRepository implements TurnikasRepository {
                 .where(TEAM.ID.eq(teamId))
                 .fetchInto(Team.class);
     }
-
 
 
     public Team updateTeamInformation(int teamId, Team updatedTeam) {
@@ -218,18 +260,11 @@ public class TeamRepository implements TurnikasRepository {
                 .fetchOneInto(TeamPlayer.class);
     }
 
-
-//    public Team findTeamById(int teamId) {
-//        return jooq
-//                .select(TEAM.ID,
-//                        TEAM.USER_ID,
-//                        TEAM.CATEGORY_CODE,
-//                        TEAM.STATS_ID,
-//                        TEAM.TEAM_NAME,
-//                        TEAM.TEAM_LOGO,
-//                        TEAM.TEAM_STATUS)
-//                .from(TEAM)
-//                .where(TEAM.ID.eq(teamId))
-//                .fetchOneInto(Team.class);
-//    }
+    public List<Role> findAllTeamRoles() {
+        return jooq
+                .select(ROLE.ROLE_CODE,
+                        ROLE.ROLE_NAME)
+                .from(ROLE)
+                .fetchInto(Role.class);
+    }
 }
