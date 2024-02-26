@@ -2,10 +2,7 @@ package com.example.turnikas_back_end.business.team.controller;
 
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
 import com.example.turnikas_back_end.business.team.dto.TeamPlayerDTO;
-import com.example.turnikas_back_end.business.team.model.AgeCategory;
-import com.example.turnikas_back_end.business.team.model.Stats;
-import com.example.turnikas_back_end.business.team.model.Team;
-import com.example.turnikas_back_end.business.team.model.TeamPlayer;
+import com.example.turnikas_back_end.business.team.model.*;
 import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistration;
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
 import com.example.turnikas_back_end.business.team.service.TeamService;
@@ -85,6 +82,18 @@ public class TeamController {
     @Operation(summary = "Filter the team table by its categoryCode and userId")
     public List<Team> getTeamsByCategoryCode(@RequestParam int categoryCode, @RequestParam int userId) {
         return teamService.getTeamsByCategoryCode(categoryCode, userId);
+    }
+
+    @GetMapping("/role/filter")
+    @Operation(summary = "Filter the team table by its roleCode and userId")
+    public List<Team> getTeamsByRoleCode(@RequestParam int roleCode, @RequestParam int userId){
+        return teamService.getTeamsByRoleCode(roleCode, userId);
+    }
+
+    @GetMapping("/role")
+    @Operation(summary = "Get all team roles")
+    public List<Role> getAllTeamRoles(){
+        return teamService.getAllTeamRoles();
     }
 
     @GetMapping("/stats")

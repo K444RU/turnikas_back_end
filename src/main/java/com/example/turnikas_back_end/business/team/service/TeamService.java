@@ -2,10 +2,7 @@ package com.example.turnikas_back_end.business.team.service;
 
 import com.example.turnikas_back_end.business.team.dto.TeamDTO;
 import com.example.turnikas_back_end.business.team.dto.TeamPlayerDTO;
-import com.example.turnikas_back_end.business.team.model.AgeCategory;
-import com.example.turnikas_back_end.business.team.model.Stats;
-import com.example.turnikas_back_end.business.team.model.Team;
-import com.example.turnikas_back_end.business.team.model.TeamPlayer;
+import com.example.turnikas_back_end.business.team.model.*;
 import com.example.turnikas_back_end.business.team.repository.TeamRepository;
 import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistration;
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
@@ -69,7 +66,7 @@ public class TeamService {
 
     @SuppressWarnings("unchecked")
     public List<AgeCategory> getAllCategories() {
-        return (List<AgeCategory>) teamRepository.findAllCategories();
+        return teamRepository.findAllCategories();
     }
 
     public List<Team> getTeamsByCategoryCode(int categoryCode, int userId) {
@@ -86,6 +83,14 @@ public class TeamService {
 
     public TeamPlayer getTeamPlayerInformationByPlayerId(int playerId) {
         return teamRepository.getTeamPlayerInformationByPlayerId(playerId);
+    }
+
+    public List<Role> getAllTeamRoles() {
+        return teamRepository.findAllTeamRoles();
+    }
+
+    public List<Team> getTeamsByRoleCode(int roleCode, int userId) {
+        return teamRepository.findAllTeamsByRoleCode(roleCode, userId);
     }
 
 

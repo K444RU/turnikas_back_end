@@ -22,7 +22,7 @@ public class ContactRepository implements TurnikasRepository {
     }
 
 
-        @Override
+    @Override
     public Integer add(Object object) {
         UserRegistration userRegistration = (UserRegistration) object;
         return jooq
@@ -67,7 +67,7 @@ public class ContactRepository implements TurnikasRepository {
     }
 
 
-    public Contact getContactInformationByUserId(int userId){
+    public Contact getContactInformationByUserId(int userId) {
         return jooq
                 .selectFrom(CONTACT)
                 .where(CONTACT.USER_ID.eq(userId))
@@ -75,7 +75,7 @@ public class ContactRepository implements TurnikasRepository {
     }
 
     public Contact updateContactInformation(int userId, Contact updatedContact) {
-        int updatedRows =  jooq
+        int updatedRows = jooq
                 .update(CONTACT)
                 .set(CONTACT.FIRST_NAME, updatedContact.getFirstName())
                 .set(CONTACT.LAST_NAME, updatedContact.getLastName())

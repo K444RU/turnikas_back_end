@@ -44,13 +44,13 @@ public class UserController {
 
     @GetMapping("/contact")
     @Operation(summary = "Get user contact information by userId")
-    public Contact getContactByUserId(@RequestParam int userId){
+    public Contact getContactByUserId(@RequestParam int userId) {
         return contactService.getContactInformationByUserId(userId);
     }
 
     @PutMapping("/update/{userId}")
     @Operation(summary = "Update the user information")
-    public Contact updateContactInformation(@PathVariable int userId, @RequestBody Contact updatedContact){
+    public Contact updateContactInformation(@PathVariable int userId, @RequestBody Contact updatedContact) {
         return contactService.updateContactInformation(userId, updatedContact);
     }
 }
