@@ -66,7 +66,7 @@ public class TeamService {
 
     @SuppressWarnings("unchecked")
     public List<AgeCategory> getAllCategories() {
-        return (List<AgeCategory>) teamRepository.findAllCategories();
+        return teamRepository.findAllCategories();
     }
 
     public List<Team> getTeamsByCategoryCode(int categoryCode, int userId) {
@@ -87,6 +87,10 @@ public class TeamService {
 
     public List<Role> getAllTeamRoles() {
         return teamRepository.findAllTeamRoles();
+    }
+
+    public List<Team> getTeamsByRoleCode(int roleCode, int userId) {
+        return teamRepository.findAllTeamsByRoleCode(roleCode, userId);
     }
 
 

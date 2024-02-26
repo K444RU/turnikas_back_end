@@ -7,6 +7,8 @@ import com.example.turnikas_back_end.business.team.request.TeamPlayerRegistratio
 import com.example.turnikas_back_end.business.team.request.TeamRegistration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.StatsRecord;
+import org.jooq.generated.tables.records.TeamRecord;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+import static org.jooq.generated.Tables.CONTACT;
 import static org.jooq.generated.Tables.ROLE;
 import static org.jooq.generated.tables.AgeCategory.AGE_CATEGORY;
 import static org.jooq.generated.tables.Stats.STATS;
@@ -33,11 +36,10 @@ public class TeamRepository implements TurnikasRepository {
     }
 
     public Integer createDefaultTeam(Integer userId, LocalDate userDateOfBirth) {
-
         Integer statsId = defaultTeamStats();
         Integer categoryCode = calculateCategoryCode(userDateOfBirth);
-
-        return jooq.insertInto(TEAM,
+        // Create the default team and fetch the generated teamId
+        TeamRecord teamRecord = jooq.insertInto(TEAM,
                         TEAM.USER_ID,
                         TEAM.STATS_ID,
                         TEAM.CATEGORY_CODE,
@@ -54,7 +56,10 @@ public class TeamRepository implements TurnikasRepository {
                         TEAM.TEAM_LOGO,
                         TEAM.TEAM_COACH_NAME,
                         TEAM.ROLE_CODE)
-                .execute();
+                .fetchOne();
+        // Create the default team player using the generated teamId
+        createDefaultTeamPlayer(teamRecord.getId(), userId);
+        return teamRecord.getId();
     }
 
     private int calculateCategoryCode(LocalDate dateOfBirth) {
@@ -80,6 +85,22 @@ public class TeamRepository implements TurnikasRepository {
         } else {
             return 7;
         }
+    }
+
+    private void createDefaultTeamPlayer(Integer teamId, Integer userId) {
+        jooq.insertInto(TEAM_PLAYER,
+                        TEAM_PLAYER.TEAM_ID,
+                        TEAM_PLAYER.FIRST_NAME,
+                        TEAM_PLAYER.LAST_NAME)
+                .select(
+                        jooq.select(
+                                        DSL.val(teamId),
+                                        CONTACT.FIRST_NAME,
+                                        CONTACT.LAST_NAME)
+                                .from(CONTACT)
+                                .where(CONTACT.USER_ID.eq(userId))
+                )
+                .execute();
     }
 
     @Override
@@ -215,7 +236,7 @@ public class TeamRepository implements TurnikasRepository {
                 .fetchInto(AgeCategory.class);
     }
 
-    public List<?> findAllCategories() {
+    public List<AgeCategory> findAllCategories() {
         return jooq
                 .select(
                         AGE_CATEGORY.CATEGORY_CODE,
@@ -228,6 +249,14 @@ public class TeamRepository implements TurnikasRepository {
         return jooq
                 .selectFrom(TEAM)
                 .where(TEAM.CATEGORY_CODE.eq(categoryCode)
+                        .and(TEAM.USER_ID.eq(userId)))
+                .fetchInto(Team.class);
+    }
+
+    public List<Team> findAllTeamsByRoleCode(int roleCode, int userId) {
+        return jooq
+                .selectFrom(TEAM)
+                .where(TEAM.ROLE_CODE.eq(roleCode)
                         .and(TEAM.USER_ID.eq(userId)))
                 .fetchInto(Team.class);
     }
@@ -267,4 +296,6 @@ public class TeamRepository implements TurnikasRepository {
                 .from(ROLE)
                 .fetchInto(Role.class);
     }
+
+
 }

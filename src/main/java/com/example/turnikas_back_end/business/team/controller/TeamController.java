@@ -84,6 +84,12 @@ public class TeamController {
         return teamService.getTeamsByCategoryCode(categoryCode, userId);
     }
 
+    @GetMapping("/role/filter")
+    @Operation(summary = "Filter the team table by its roleCode and userId")
+    public List<Team> getTeamsByRoleCode(@RequestParam int roleCode, @RequestParam int userId){
+        return teamService.getTeamsByRoleCode(roleCode, userId);
+    }
+
     @GetMapping("/role")
     @Operation(summary = "Get all team roles")
     public List<Role> getAllTeamRoles(){

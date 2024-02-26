@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AgeCategory {
-    private int ageCategoryCode;
+    private int categoryCode;
     private String categoryName;
 }
