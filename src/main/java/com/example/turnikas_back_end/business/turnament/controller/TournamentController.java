@@ -51,8 +51,13 @@ public class TournamentController {
 
     @GetMapping("/city/info")
     @Operation(summary = "Get tournament city info by cityId")
-    public City getCityInformationByCityId(int cityId){
+    public City getCityInformationByCityId(@RequestParam int cityId){
         return tournamentService.getCityInformationByCityId(cityId);
+    }
+    @GetMapping("/city-name/info")
+    @Operation(summary = "Get city name by cityId")
+    public City getCityNameByCityId(@RequestParam int cityId){
+        return tournamentService.getCityNameByCityId(cityId);
     }
 
     @GetMapping("/stadium")
@@ -89,6 +94,18 @@ public class TournamentController {
     @Operation(summary = "Get all available age catergories for the tournament")
     public List<AgeCategoryDTO> getAllAgeCategories(){
         return tournamentService.getAllAgeCategories();
+    }
+
+    @GetMapping("/age-category/filter")
+    @Operation(summary = "Filter tournaments by categoryCode")
+    public List<TournamentDTO> getTournamentsByCategoryCode(@RequestParam int categoryCode){
+        return tournamentService.getTournamentsByCategoryCode(categoryCode);
+    }
+
+    @GetMapping("/player-amount-code/filter")
+    @Operation(summary = "Filter tournaments by playerAmountCode")
+    public List<TournamentDTO> getTournamentsByPlayerAmountCode(@RequestParam int playerAmountCode){
+        return tournamentService.getTournamentsByPlayerAmountCode(playerAmountCode);
     }
 
 

@@ -64,4 +64,16 @@ public class TournamentService {
     public List<AgeCategoryDTO> getAllAgeCategories() {
         return tournamentRepository.findAllAgeCategories();
     }
+
+    public List<TournamentDTO> getTournamentsByCategoryCode(int categoryCode) {
+        return tournamentRepository.findTournamentsByCategoryCode(categoryCode);
+    }
+
+    public List<TournamentDTO> getTournamentsByPlayerAmountCode(int playerAmountCode) {
+        return tournamentRepository.findTournamentsByPlayerAmountCode(playerAmountCode);
+    }
+
+    public City getCityNameByCityId(int cityId) {
+        return tournamentRepository.findCityNameByCityId(cityId);
+    }
 }

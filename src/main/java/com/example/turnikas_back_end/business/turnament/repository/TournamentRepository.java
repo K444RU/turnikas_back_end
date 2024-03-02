@@ -188,4 +188,26 @@ public class TournamentRepository implements TurnikasRepository {
                 .from(AGE_CATEGORY)
                 .fetchInto(AgeCategoryDTO.class);
     }
+
+    public List<TournamentDTO> findTournamentsByCategoryCode(int categoryCode) {
+        return jooq
+                .selectFrom(TOURNAMENT)
+                .where(TOURNAMENT.CATEGORY_CODE.eq(categoryCode))
+                .fetchInto(TournamentDTO.class);
+    }
+
+    public List<TournamentDTO> findTournamentsByPlayerAmountCode(int playerAmountCode) {
+        return jooq
+                .selectFrom(TOURNAMENT)
+                .where(TOURNAMENT.PLAYER_AMOUNT_CODE.eq(playerAmountCode))
+                .fetchInto(TournamentDTO.class);
+    }
+
+    public City findCityNameByCityId(int cityId) {
+        return jooq
+                .select(CITY.CITY_NAME)
+                .from(CITY)
+                .where(CITY.ID.eq(cityId))
+                .fetchOneInto(City.class);
+    }
 }
