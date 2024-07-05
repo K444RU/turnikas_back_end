@@ -6,7 +6,6 @@ import com.example.turnikas_back_end.business.user.repository.ContactRepository;
 import com.example.turnikas_back_end.business.user.repository.UserRepository;
 import com.example.turnikas_back_end.business.user.request.UserRegistration;
 import com.example.turnikas_back_end.exception.EmailAlreadyExistsException;
-import org.jooq.generated.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +41,7 @@ public class UserService {
 
 
     public UserDTO loginUser(UserDTO user) {
-        User foundUser = userRepository.findByEmail(user.getEmail());
+        UserDTO foundUser = userRepository.findByEmail(user.getEmail());
         if (foundUser == null) {
             throw new IllegalArgumentException("Invalid email or password.");
         }
