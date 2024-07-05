@@ -4,7 +4,6 @@ import com.example.turnikas_back_end.business.common.repository.TurnikasReposito
 import com.example.turnikas_back_end.business.user.dto.UserDTO;
 import com.example.turnikas_back_end.business.user.request.UserRegistration;
 import org.jooq.DSLContext;
-import org.jooq.generated.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,12 +76,12 @@ public class UserRepository implements TurnikasRepository {
     }
 
     @Transactional(readOnly = true)
-    public User findByEmail(String email) {
+    public UserDTO findByEmail(String email) {
         return jooq
                 .select(USER.ID, USER.EMAIL, USER.PASSWORD)
                 .from(USER)
                 .where(USER.EMAIL.eq(email))
-                .fetchOneInto(User.class);
+                .fetchOneInto(UserDTO.class);
     }
 
     public boolean emailExists(String email) {
