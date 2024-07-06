@@ -1,6 +1,7 @@
 package com.example.turnikas_back_end.business.team.service;
 
 import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
+import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.repository.ParticipationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ParticipationService {
         }
     }
 
-    public List<ParticipationDTO> getAllRegisteredTeams(int tournamentId) {
+    public List<Team> getAllRegisteredTeams(int tournamentId) {
         return participationRepository.findAllRegisteredTeams(tournamentId);
     }
 }
