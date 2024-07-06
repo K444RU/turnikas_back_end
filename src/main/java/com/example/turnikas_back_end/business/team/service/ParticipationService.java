@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ParticipationService {
 
@@ -23,5 +25,9 @@ public class ParticipationService {
         } else {
             throw new IllegalArgumentException("Team is already registered for this tournament.");
         }
+    }
+
+    public List<ParticipationDTO> getAllRegisteredTeams(int tournamentId) {
+        return participationRepository.findAllRegisteredTeams(tournamentId);
     }
 }

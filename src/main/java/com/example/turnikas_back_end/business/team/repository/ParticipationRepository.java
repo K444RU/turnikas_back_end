@@ -1,8 +1,11 @@
 package com.example.turnikas_back_end.business.team.repository;
 
+import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static org.jooq.generated.Tables.PARTICIPATION;
 
@@ -30,5 +33,12 @@ public class ParticipationRepository {
                 .set(PARTICIPATION.TEAM_ID, teamId)
                 .set(PARTICIPATION.TOURNAMENT_ID, tournamentId)
                 .execute();
+    }
+
+    public List<ParticipationDTO> findAllRegisteredTeams(int tournamentId) {
+        return jooq
+                .selectFrom(PARTICIPATION)
+                .where(PARTICIPATION.TOURNAMENT_ID.eq(tournamentId))
+                .fetchInto(ParticipationDTO.class);
     }
 }
