@@ -1,6 +1,7 @@
 package com.example.turnikas_back_end.business.team.controller;
 
 import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
+import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.service.ParticipationService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class ParticipationController {
         participationService.registerTeamForTournament(participationDTO);
     }
 
-    @GetMapping("/registered/teams")
+    @GetMapping("/tournament/{tournamentId}/teams")
     @Operation(summary = "Get all the teams that are registered to the tournament by tournament id")
-    public List<ParticipationDTO> getAllRegisteredTeams(@RequestParam int tournamentId) {
+    public List<Team> getAllRegisteredTeams(@PathVariable int tournamentId) {
         return participationService.getAllRegisteredTeams(tournamentId);
     }
 }
