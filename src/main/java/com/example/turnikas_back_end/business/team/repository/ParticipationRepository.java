@@ -42,4 +42,11 @@ public class ParticipationRepository {
                 .where(PARTICIPATION.TOURNAMENT_ID.eq(tournamentId))
                 .fetchInto(Team.class);
     }
+
+    public List<Team> findTeamsByUserIdAndCategoryCode(int userId, int categoryCode) {
+        return jooq.selectFrom(TEAM)
+                .where(TEAM.USER_ID.eq(userId))
+                .and(TEAM.CATEGORY_CODE.eq(categoryCode))
+                .fetchInto(Team.class);
+    }
 }

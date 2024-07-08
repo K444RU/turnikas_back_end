@@ -31,4 +31,11 @@ public class ParticipationController {
     public List<Team> getAllRegisteredTeams(@PathVariable int tournamentId) {
         return participationService.getAllRegisteredTeams(tournamentId);
     }
+
+    @GetMapping("/tournament/{tournamentId}/eligible-teams")
+    @Operation(summary = "Get eligible teams for tournament registration by tournament id")
+    public List<Team> getEligibleTeamsForTournamentRegistration(@PathVariable int tournamentId, @RequestParam int userId) {
+        int categoryCode = participationService.getCategoryCodeByTournamentId(tournamentId);
+        return participationService.getEligibleTeamsForTournament(userId, categoryCode);
+    }
 }
