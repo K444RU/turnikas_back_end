@@ -3,6 +3,7 @@ package com.example.turnikas_back_end.business.team.service;
 import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.repository.ParticipationRepository;
+import com.example.turnikas_back_end.business.team.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +14,12 @@ import java.util.List;
 public class ParticipationService {
 
     private final ParticipationRepository participationRepository;
+    private final TournamentRepository tournamentRepository;
 
     @Autowired
-    public ParticipationService(ParticipationRepository participationRepository) {
+    public ParticipationService(ParticipationRepository participationRepository, TournamentRepository tournamentRepository) {
         this.participationRepository = participationRepository;
+        this.tournamentRepository = tournamentRepository;
     }
 
     @Transactional
@@ -33,10 +36,12 @@ public class ParticipationService {
     }
 
     public int getCategoryCodeByTournamentId(int tournamentId) {
-        return participationRepository.findById(tournamentId).getCategoryCode();
+        return tournamentRepository.findById(tournamentId)
+                .orElseThrow(() -> new IllegalArgumentException("Tournament not found"))
+                .getCategoryCode();
     }
 
-    public List<Team> getEligibleTeamsForTournament(int userid, int categoryCode) {
-        return participationRepository.findTeamsByUserIdAndCategoryCode(userid, categoryCode);
+    public List<Team> getEligibleTeamsForTournament(int userId, int categoryCode) {
+        return participationRepository.findTeamsByUserIdAndCategoryCode(userId, categoryCode);
     }
 }

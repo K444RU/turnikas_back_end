@@ -2,13 +2,13 @@ package com.example.turnikas_back_end.business.team.repository;
 
 import com.example.turnikas_back_end.business.team.model.Team;
 import org.jooq.DSLContext;
-import org.jooq.generated.tables.records.TournamentRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static org.jooq.generated.Tables.*;
+import static org.jooq.generated.Tables.PARTICIPATION;
+import static org.jooq.generated.Tables.TEAM;
 
 @Repository
 public class ParticipationRepository {
@@ -41,12 +41,6 @@ public class ParticipationRepository {
                 .join(TEAM).on(PARTICIPATION.TEAM_ID.eq(TEAM.ID))
                 .where(PARTICIPATION.TOURNAMENT_ID.eq(tournamentId))
                 .fetchInto(Team.class);
-    }
-
-    public TournamentRecord findById(int tournamentId) {
-        return jooq.selectFrom(TOURNAMENT)
-                .where(TOURNAMENT.ID.eq(tournamentId))
-                .fetchOne();
     }
 
     public List<Team> findTeamsByUserIdAndCategoryCode(int userId, int categoryCode) {
