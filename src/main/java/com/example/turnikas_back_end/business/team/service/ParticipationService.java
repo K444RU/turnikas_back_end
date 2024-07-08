@@ -31,4 +31,12 @@ public class ParticipationService {
     public List<Team> getAllRegisteredTeams(int tournamentId) {
         return participationRepository.findAllRegisteredTeams(tournamentId);
     }
+
+    public int getCategoryCodeByTournamentId(int tournamentId) {
+        return participationRepository.findById(tournamentId).getCategoryCode();
+    }
+
+    public List<Team> getEligibleTeamsForTournament(int userid, int categoryCode) {
+        return participationRepository.findTeamsByUserIdAndCategoryCode(userid, categoryCode);
+    }
 }
