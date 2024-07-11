@@ -1,4 +1,4 @@
-package com.example.turnikas_back_end.business.team.dto;
+package com.example.turnikas_back_end.business.turnament.dto;
 
 import lombok.Data;
 

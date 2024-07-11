@@ -1,4 +1,4 @@
-package com.example.turnikas_back_end.business.team.repository;
+package com.example.turnikas_back_end.business.turnament.repository;
 
 import com.example.turnikas_back_end.business.team.model.Team;
 import org.jooq.DSLContext;

@@ -1,8 +1,9 @@
-package com.example.turnikas_back_end.business.team.controller;
+package com.example.turnikas_back_end.business.turnament.controller;
 
-import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.service.ParticipationService;
+import com.example.turnikas_back_end.business.turnament.dto.ParticipationDTO;
+import com.example.turnikas_back_end.business.turnament.service.TournamentGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ import java.util.List;
 public class ParticipationController {
 
     private final ParticipationService participationService;
+    private final TournamentGroupService tournamentGroupService;
 
     @Autowired
-    public ParticipationController(ParticipationService participationService) {
+    public ParticipationController(ParticipationService participationService, TournamentGroupService tournamentGroupService) {
         this.participationService = participationService;
+        this.tournamentGroupService = tournamentGroupService;
     }
 
     @PostMapping
@@ -37,5 +40,11 @@ public class ParticipationController {
     public List<Team> getEligibleTeamsForTournamentRegistration(@PathVariable int tournamentId, @RequestParam int userId) {
         int categoryCode = participationService.getCategoryCodeByTournamentId(tournamentId);
         return participationService.getEligibleTeamsForTournament(userId, categoryCode);
+    }
+
+    @PostMapping("/tournament/{tournamentId}/groups")
+    @Operation(summary = "Generate groups for a tournament")
+    public List<List<Team>> generateGroups(@PathVariable int tournamentId) {
+        return tournamentGroupService.generateGroups(tournamentId);
     }
 }

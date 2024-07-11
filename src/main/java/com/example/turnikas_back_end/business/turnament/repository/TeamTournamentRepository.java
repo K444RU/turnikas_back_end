@@ -1,4 +1,4 @@
-package com.example.turnikas_back_end.business.team.repository;
+package com.example.turnikas_back_end.business.turnament.repository;
 
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.records.TournamentRecord;
@@ -10,12 +10,12 @@ import java.util.Optional;
 import static org.jooq.generated.Tables.TOURNAMENT;
 
 @Repository("teamTournamentRepository")
-public class TournamentRepository {
+public class TeamTournamentRepository {
 
     private final DSLContext jooq;
 
     @Autowired
-    public TournamentRepository(DSLContext jooq) {
+    public TeamTournamentRepository(DSLContext jooq) {
         this.jooq = jooq;
     }
 

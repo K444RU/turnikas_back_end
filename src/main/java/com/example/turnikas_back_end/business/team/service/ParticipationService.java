@@ -1,9 +1,9 @@
 package com.example.turnikas_back_end.business.team.service;
 
-import com.example.turnikas_back_end.business.team.dto.ParticipationDTO;
+import com.example.turnikas_back_end.business.turnament.dto.ParticipationDTO;
 import com.example.turnikas_back_end.business.team.model.Team;
-import com.example.turnikas_back_end.business.team.repository.ParticipationRepository;
-import com.example.turnikas_back_end.business.team.repository.TournamentRepository;
+import com.example.turnikas_back_end.business.turnament.repository.ParticipationRepository;
+import com.example.turnikas_back_end.business.turnament.repository.TeamTournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +14,10 @@ import java.util.List;
 public class ParticipationService {
 
     private final ParticipationRepository participationRepository;
-    private final TournamentRepository tournamentRepository;
+    private final TeamTournamentRepository tournamentRepository;
 
     @Autowired
-    public ParticipationService(ParticipationRepository participationRepository, TournamentRepository tournamentRepository) {
+    public ParticipationService(ParticipationRepository participationRepository, TeamTournamentRepository tournamentRepository) {
         this.participationRepository = participationRepository;
         this.tournamentRepository = tournamentRepository;
     }
