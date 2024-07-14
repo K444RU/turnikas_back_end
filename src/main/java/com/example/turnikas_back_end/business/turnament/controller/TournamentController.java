@@ -108,5 +108,11 @@ public class TournamentController {
         return tournamentService.getTournamentsByPlayerAmountCode(playerAmountCode);
     }
 
+    @GetMapping("/start-date/filter")
+    @Operation(summary = "Filter tournaments by startDate")
+    public List<TournamentDTO> filterTournamentsByStartDate() {
+        return tournamentService.filterTournamentsByStartDate();
+    }
+
 
 }

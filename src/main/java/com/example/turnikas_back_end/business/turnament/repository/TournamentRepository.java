@@ -104,6 +104,7 @@ public class TournamentRepository implements TurnikasRepository {
                         TOURNAMENT.PRIZE,
                         TOURNAMENT.ADDITIONAL_INFO)
                 .from(TOURNAMENT)
+                .orderBy(TOURNAMENT.ID.desc())
                 .fetchInto(TournamentDTO.class);
     }
     public Object findAllCities() {
@@ -209,5 +210,23 @@ public class TournamentRepository implements TurnikasRepository {
                 .from(CITY)
                 .where(CITY.ID.eq(cityId))
                 .fetchOneInto(City.class);
+    }
+
+    public List<TournamentDTO> filterTournamentsByStartDate() {
+        return jooq
+                .select(TOURNAMENT.ID,
+                        TOURNAMENT.CATEGORY_CODE,
+                        TOURNAMENT.PLAYER_AMOUNT_CODE,
+                        TOURNAMENT.CITY_ID,
+                        TOURNAMENT.STADIUM_ID,
+                        TOURNAMENT.NAME,
+                        TOURNAMENT.START_DATE,
+                        TOURNAMENT.END_DATE,
+                        TOURNAMENT.PARTICIPATION_PRISE,
+                        TOURNAMENT.PRIZE,
+                        TOURNAMENT.ADDITIONAL_INFO)
+                .from(TOURNAMENT)
+                .orderBy(TOURNAMENT.START_DATE.desc())
+                .fetchInto(TournamentDTO.class);
     }
 }

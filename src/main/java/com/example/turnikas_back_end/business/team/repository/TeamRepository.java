@@ -242,6 +242,7 @@ public class TeamRepository implements TurnikasRepository {
                         AGE_CATEGORY.CATEGORY_CODE,
                         AGE_CATEGORY.CATEGORY_NAME)
                 .from(AGE_CATEGORY)
+                .orderBy(AGE_CATEGORY.CATEGORY_CODE.desc())
                 .fetchInto(AgeCategory.class);
     }
 

@@ -76,4 +76,8 @@ public class TournamentService {
     public City getCityNameByCityId(int cityId) {
         return tournamentRepository.findCityNameByCityId(cityId);
     }
+
+    public List<TournamentDTO> filterTournamentsByStartDate() {
+        return tournamentRepository.filterTournamentsByStartDate();
+    }
 }
