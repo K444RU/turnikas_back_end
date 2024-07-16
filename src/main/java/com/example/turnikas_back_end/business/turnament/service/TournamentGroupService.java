@@ -1,6 +1,7 @@
 package com.example.turnikas_back_end.business.turnament.service;
 
 import com.example.turnikas_back_end.business.team.model.Team;
+import com.example.turnikas_back_end.business.turnament.dto.TournamentGroupDTO;
 import com.example.turnikas_back_end.business.turnament.repository.ParticipationRepository;
 import com.example.turnikas_back_end.business.turnament.repository.TournamentGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,11 @@ public class TournamentGroupService {
                 tournamentGroupRepository.save(tournamentId, team.getId(), groupName);
             }
         }
+
         return groups;
+    }
+
+    public List<TournamentGroupDTO> getGroupsForTournament(int tournamentId) {
+        return tournamentGroupRepository.findGroupsByTournamentId(tournamentId);
     }
 }
