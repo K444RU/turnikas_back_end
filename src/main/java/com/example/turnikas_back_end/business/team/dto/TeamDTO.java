@@ -28,4 +28,16 @@ public class TeamDTO {
     public TeamDTO(int id){
         this.id = id;
     }
+
+    public TeamDTO(int id, int userId, int categoryCode, int statsId, String teamName, byte[] teamLogo, String teamCoachName, int roleCode) {
+        this.id = id;
+        this.userId = userId;
+        this.categoryCode = categoryCode;
+        this.statsId = statsId;
+        this.teamName = teamName;
+        this.teamLogo = teamLogo;
+        this.teamCoachName = teamCoachName;
+        this.roleCode = roleCode;
+    }
+
 }

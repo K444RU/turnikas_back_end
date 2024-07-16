@@ -3,6 +3,7 @@ package com.example.turnikas_back_end.business.turnament.controller;
 import com.example.turnikas_back_end.business.team.model.Team;
 import com.example.turnikas_back_end.business.team.service.ParticipationService;
 import com.example.turnikas_back_end.business.turnament.dto.ParticipationDTO;
+import com.example.turnikas_back_end.business.turnament.dto.TournamentGroupDTO;
 import com.example.turnikas_back_end.business.turnament.service.TournamentGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,11 @@ public class ParticipationController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/tournament/{tournamentId}/generated-groups")
+    @Operation(summary = "Get groups for a tournament")
+    public List<TournamentGroupDTO> getGroupsForTournament(@PathVariable int tournamentId) {
+        return tournamentGroupService.getGroupsForTournament(tournamentId);
     }
 }
