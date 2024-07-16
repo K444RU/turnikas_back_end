@@ -21,4 +21,11 @@ public class TournamentGroupRepository {
                 .set(TOURNAMENT_GROUP.NAME, groupName)
                 .execute();
     }
+
+    public boolean existsByTournamentId(int tournamentId) {
+        return jooq.fetchExists(
+                jooq.selectFrom(TOURNAMENT_GROUP)
+                        .where(TOURNAMENT_GROUP.TOURNAMENT_ID.eq(tournamentId))
+        );
+    }
 }

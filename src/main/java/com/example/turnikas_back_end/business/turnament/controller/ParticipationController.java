@@ -6,6 +6,7 @@ import com.example.turnikas_back_end.business.turnament.dto.ParticipationDTO;
 import com.example.turnikas_back_end.business.turnament.service.TournamentGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +45,12 @@ public class ParticipationController {
 
     @PostMapping("/tournament/{tournamentId}/groups")
     @Operation(summary = "Generate groups for a tournament")
-    public List<List<Team>> generateGroups(@PathVariable int tournamentId) {
-        return tournamentGroupService.generateGroups(tournamentId);
+    public ResponseEntity<?> generateGroups(@PathVariable int tournamentId) {
+        try {
+            List<List<Team>> groups = tournamentGroupService.generateGroups(tournamentId);
+            return ResponseEntity.ok(groups);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
