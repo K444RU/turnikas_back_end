@@ -23,6 +23,10 @@ public class TournamentGroupService {
     }
 
     public List<List<Team>> generateGroups(int tournamentId) {
+        if (tournamentGroupRepository.existsByTournamentId(tournamentId)) {
+            throw new IllegalArgumentException("Groups have been already created for this tournament.");
+        }
+
         List<Team> registeredTeams = participationRepository.findAllRegisteredTeams(tournamentId);
 
         Collections.shuffle(registeredTeams);
